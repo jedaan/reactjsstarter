@@ -9,10 +9,6 @@ class App extends React.Component {
     };
   }
 
-  handleChangeLoader() {
-    this.setState({ loader: false });
-  }
-
   render() {
     let { route } = this.props;
     return (

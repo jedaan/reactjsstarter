@@ -38,7 +38,7 @@ export default (req, store, context) => {
         </body>
          
         <script>
-          window.INITIAL_STATE = ${serialize(store.getState())}
+        window.INITIAL_STATE = ${serialize(store.getState())}
         </script>
         <script type="text/javascript" src="../scripts/index-bundle.js"></script>
       </html>

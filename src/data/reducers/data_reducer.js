@@ -1,21 +1,27 @@
-import { FETCH_PUBLIC_DATA,FETCH_PRIVATE_DATA } from '../actions/type';
+import { FETCH_PUBLIC_DATA, FETCH_PRIVATE_DATA, SUCCESS_LOG_IN, SUCCESS_LOG_OUT } from '../actions/type';
 
 export default (state = {}, action) => {
     const { type, payload } = action;
+    console.log('statststst  -> ', state);
+    let newState = Object.assign(
+        {},
+        state
+    );
     switch (type) {
         case FETCH_PRIVATE_DATA:
-            return {
-                authenticated: true,
-                privateData: payload
-            };
+            newState.privateData = payload;
+            return newState;
         case FETCH_PUBLIC_DATA:
-            return {
-                authenticated: false,
-                data: null,
-                publicData: payload
-            };
-        // case FETCH_USER_DATA:
-        //     return { data: payload };
+            return Object.assign({},
+                state,
+                { publicData: payload }
+            );
+        case SUCCESS_LOG_IN:
+            newState.authenticated = payload;
+            return newState;
+        case SUCCESS_LOG_OUT:
+            newState.authenticated = payload;
+            return newState;
         default:
             return state;
     }

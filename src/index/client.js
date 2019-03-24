@@ -8,6 +8,8 @@ import { renderRoutes } from "react-router-config";
 import axios from "axios";
 import Routes from "../Routes";
 import rootReducer from "../data/reducers";
+import logger from 'redux-logger';
+import { SUCCESS_LOG_IN } from '../data/actions/type';
 
 const axiosInstance = axios.create({
   baseURL: "/api/"
@@ -16,17 +18,16 @@ const axiosInstance = axios.create({
 const store = createStore(
   rootReducer,
   window.INITIAL_STATE,
-  applyMiddleware(reduxThunk.withExtraArgument(axiosInstance))
+  applyMiddleware(reduxThunk.withExtraArgument(axiosInstance), logger)
 );
 
 
 let auth = localStorage.getItem('auth');
 
-if (auth) {
-  userData = JSON.parse(userData);
+if (auth === 'auth') {
   store.dispatch({
     type: SUCCESS_LOG_IN,
-    payload: userData
+    payload: true
   });
 }
 
@@ -34,7 +35,9 @@ if (auth) {
 ReactDOM.hydrate(
   <Provider store={store}>
     <BrowserRouter>
-      {renderRoutes(Routes)}
+      <div>
+        {renderRoutes(Routes)}
+      </div>
     </BrowserRouter>
   </Provider>,
   document.getElementById("root")

@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Collapse, Nav, Navbar, NavbarToggler, NavItem, NavLink } from 'reactstrap';
@@ -7,43 +8,32 @@ import { logOut } from '../../data/actions/index';
 class Header extends React.Component {
   constructor(props) {
     super(props);
-
-    this.toggle = this.toggle.bind(this);
     this.state = {
-      isOpen: false
+      isOpen: true
     };
+    this.changeRoute = this.changeRoute.bind(this);
   }
 
-  toggle() {
-    this.setState({
-      isOpen: !this.state.isOpen
-    });
+  changeRoute(destination) {
+    this.props.history.push(destination);
   }
 
   render() {
-    let authenticated = this.props;
+    let { authenticated } = this.props;
     return (
       <div >
         <Navbar expand="md">
-          <NavbarToggler onClick={this.toggle} className="toggle" />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
-              {
-                (authenticated) ? <NavItem>
-                  <NavLink href="void(0)" onClick={this.props.handleLogOut}>logout</NavLink>
-                </NavItem> :
-                  <NavItem>
-                    <NavLink href="/login">login</NavLink>
-                  </NavItem>
-              }
               <NavItem>
-                <NavLink href="/privatepage">private page </NavLink>
+                <NavLink onClick={() => this.changeRoute('/privatepage')}> private page </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/publicpage">public page</NavLink>
+                <NavLink onClick={() => this.changeRoute('/publicpage')} >public page</NavLink>
               </NavItem>
-
-
+              <NavItem>
+                <NavLink onClick={() => this.changeRoute('/anotherpublicpage')} >another public page</NavLink>
+              </NavItem>
             </Nav>
           </Collapse>
         </Navbar>
@@ -62,4 +52,4 @@ function mapDispatchToProps(dispatch) {
   });
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Header));

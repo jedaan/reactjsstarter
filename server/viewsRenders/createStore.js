@@ -11,7 +11,11 @@ export default req => {
   });
 
   const initialState = {
-    data: {},
+    data: {
+      authenticated: false,
+      publicData: null,
+      privateData: null
+    },
   }
 
   const store = createStore(
